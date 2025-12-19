@@ -14,8 +14,7 @@ USE_GPROF = FALSE
 # Performance
 USE_MPI = TRUE
 USE_OMP = FALSE
-# USE_CUDA = TRUE
-# CUDA_ARCH = 86
+USE_CUDA = FALSE
 USE_HIP = FALSE
 USE_SYCL = FALSE
 
@@ -30,9 +29,8 @@ Transport_Model := Simple
 Chemistry_Model := LiDryer
 
 # CNS
-USE_EB = FALSE
-NUM_AUX = 18
 #NUM_FIELD = 8
+#NUM_AUX = 16
 
 # GNU Make
 CEXE_headers += prob.H prob_parm.H

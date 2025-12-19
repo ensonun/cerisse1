@@ -9,11 +9,15 @@ struct ProbParm
   // Inflow
   amrex::Real rho_inf;
   amrex::Real u_inf;
-  amrex::Real ei_inf;
+  // amrex::Real ei_inf;
   amrex::Real T_inf;
   amrex::GpuArray<amrex::Real, NUM_SPECIES> Y = {0.0};
   amrex::Real theta0 = 0.5; // initial BL thickness [cm]
-  amrex::Real A = 0.05; // perturbation amplitude
+  // amrex::Real A = 0.05; // perturbation amplitude
+  int npts;               // number of points in inflow profile
+  amrex::Real* y_profile; // y / theta0
+  amrex::Real* u_profile; // u / uinf
+  amrex::Real* T_profile; // T / Tinf
 
   // Jet
   amrex::Real rho_j;

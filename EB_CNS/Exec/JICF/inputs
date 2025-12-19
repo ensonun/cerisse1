@@ -1,7 +1,7 @@
 # ====================================================== #
 #                  CERISSE INPUT SCRIPT                  #
 # ====================================================== #
-max_step = 20000
+max_step = 10000
 stop_time = 0.1
 #amrex.fpe_trap_invalid = 1
 #fab.init_snan = 1
@@ -9,9 +9,9 @@ stop_time = 0.1
 # ================ COMPUTATIONAL DOMAIN ================ #
 geometry.is_periodic = 0 0 0
 geometry.coord_sys   = 0
-geometry.prob_lo     = -20.0    0.0   -20.0
-geometry.prob_hi     =  76.0   40.0    20.0
-amr.n_cell           =    96     40      40
+geometry.prob_lo     = -2.8   0.0   -6.0
+geometry.prob_hi     = 10.0   5.6    6.0
+amr.n_cell           =  128    56    120
 
 # ================ BOUNDARY CONDITIONS ================= #
 # 0 = Interior             3 = Symmetry
@@ -23,10 +23,10 @@ cns.hi_bc = 2 2 2
 # ==================== WHAT PHYSICS ==================== #
 cns.do_hydro = 1
 cns.do_visc  = 1
-cns.do_react = 0
+cns.do_react = 1
 # cns.do_vpdf = 1
 # cns.do_spdf = 1
-cns.eb_wall_model = 1
+cns.eb_wall_model = 0
 cns.wall_model = LawOfTheWall
 #cns.no_wm_in_box_lo = -0.5 -0.5 -0.5
 #cns.no_wm_in_box_hi =  0.5  0.5  0.5
@@ -71,18 +71,18 @@ amr.n_error_buf     = 2 2 2 # number of buffer cells in error est
 amr.grid_eff        = 0.8
 
 # ================== TAGGING CRITERIA ================== #
-cns.refinement_indicators = magvort gradp #YH2 refinebox
+cns.refinement_indicators = magvort gradp YH2 #refinebox
 # For shocks
 cns.gradp.field_name = pressure
-cns.gradp.adjacent_difference_greater = 1.7e5
-cns.gradp.max_level = 3
+cns.gradp.adjacent_difference_greater = 1.0e6
+cns.gradp.max_level = 2
 # For fuel
-#cns.YH2.field_name = Y_H2
-#cns.YH2.value_greater = 0.03 # 0.1
-#cns.YH2.max_level = 3
+cns.YH2.field_name = Y_H2
+cns.YH2.value_greater = 0.03 # 0.1
+cns.YH2.max_level = 3
 # For boundary layer and shear layer
 cns.magvort.vorticity_greater = 1.5e4 # 1.3e5 2e5
-cns.magvort.max_level = 3
+cns.magvort.max_level = 2
 # Near injector
 #cns.refinebox.in_box_lo = -1.0 -0.0 -1.0
 #cns.refinebox.in_box_hi =  1.0  2.0  1.0
@@ -99,20 +99,21 @@ amr.plot_file  = plt
 amr.plot_int   = 250
 #amr.plot_per # interval physical time between plotfiles
 amr.plot_vars        = density Temp heatRelease #rho_E
-amr.derive_plot_vars = pressure velocity MachNumber magvort shock_sensor
+amr.derive_plot_vars = pressure velocity MachNumber magvort #shock_sensor
 cns.plot_rhoy = 0
 cns.plot_molefrac = 0
 cns.plot_massfrac = 1
 cns.plot_fields = 0
 
 # ================= PROBLEM PARAMETERS ================= #
-prob.M         = 1.2    # inflow Mach number
-prob.p         = 2.5e6  # inflow pressure [Ba]
-prob.T         = 800.0  # inflow temperature [K]
-prob.theta0    = 2.0    # initial BL thickness [cm]
-prob.mom_ratio = 1.0    # jet momentum ratio
-prob.T_j       = 800.0  # jet static temperature [K]
-prob.r_j       = 0.5    # jet radius [cm]
+prob.M         = 2.44   # inflow Mach number
+prob.p         = 4.0e5  # inflow pressure [Ba]
+prob.T         = 1400.0 # inflow temperature [K]
+prob.theta0    = 0.05   # initial BL thickness [cm]
+prob.mom_ratio = 5.03   # jet momentum ratio
+prob.T0_j      = 295.0  # jet total temperature [K]
+prob.r_j       = 0.1    # jet radius [cm]
+prob.inflow_file = "inflow_bl.csv"  # inflow BL profile
 #prob.A = 
 #prob.M_j = 
 #prob.profile = 
